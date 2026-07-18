@@ -3,7 +3,7 @@ module github.com/nox-hq/nox-plugin-red-team
 go 1.26.2
 
 require (
-	github.com/nox-hq/nox v1.8.0
+	github.com/nox-hq/nox v1.9.1
 	google.golang.org/grpc v1.82.0
 	google.golang.org/protobuf v1.36.11
 )
