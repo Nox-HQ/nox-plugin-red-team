@@ -1,3 +1,48 @@
+> ## ⚠️ Archived — superseded by `nox attack` in core
+>
+> **Do not install this plugin.** Exploit hypothesis construction and
+> evidence-backed validation live in the core CLI as `nox attack`, which builds
+> hypotheses from static findings plus the AI inventory, exercises a running
+> target, and reports traces backed by the evidence spine. `nox attack plan` is
+> offline; `run` / `replay` / `regress` are ACTIVE, require `--authorize`, and
+> never run as part of `nox scan`.
+>
+> Archived because the plugin duplicated that job and the duplicate was empty.
+> `analyze` returns `{}` for every input:
+>
+> ```
+> $ nox plugin call nox/red-team analyze
+> {}
+> $ nox plugin call nox/red-team analyze finding_id=x
+> {}
+> $ nox plugin call nox/red-team analyze cve_id=CVE-2021-44228
+> {}
+> $ nox plugin call nox/red-team analyze target=http://localhost:9999
+> {}
+> ```
+>
+> It also could not contribute to a scan even in principle: neither of its tools
+> is named `scan` and neither declares `requires_scan_context`, which are the
+> only two things `nox scan` invokes. Since nox 1.34.0 a scan says so out loud
+> rather than silently registering it.
+>
+> One part worked correctly and is worth recording: `validate` was properly
+> refused by the sandbox for declaring `network_hosts: *`, an active risk class
+> and `needs_confirmation`. That is the policy engine doing its job.
+>
+> **Remove it:**
+>
+> ```bash
+> nox plugin remove nox/red-team
+> ```
+>
+> Then drop `nox/red-team` from `plugins.required` in `.nox.yaml` and use
+> `nox attack --help`.
+>
+> Detail in [#43](https://github.com/Nox-HQ/nox-plugin-red-team/issues/43).
+
+---
+
 # nox-plugin-red-team
 
 AI-powered attack path analysis and exploit validation plugin for [Nox](https://github.com/nox-hq/nox).
